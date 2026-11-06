@@ -88,7 +88,7 @@
 **Exit criteria:** tenant isolation, billing correctness, link permissions, webhook signatures, incident drills, and load tests pass.
 
 ## Phase-to-requirement traceability
-The PRD feature IDs VS-0001 through VS-1075 are the canonical feature identifiers. Implementation issues and pull requests should reference those IDs. Update CURRENT_STATE.md with completed IDs, commit/PR evidence, test names, CI evidence, manual verification, limitations, and deferred requirements.
+The PRD feature IDs VS-0001 through VS-1050 are the canonical feature identifiers. Implementation issues and pull requests should reference those IDs. Update CURRENT_STATE.md with completed IDs, commit/PR evidence, test names, CI evidence, manual verification, limitations, and deferred requirements.
 
 ## Explicit non-goals until separately approved
 - Native desktop application.
