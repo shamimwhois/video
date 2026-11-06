@@ -19,6 +19,10 @@ The current repository is a Laravel 13 application with authentication and a bas
 - Requirement entries define behavior, user outcome, acceptance criteria, priority, and dependencies.
 - Requirements remain **Specified** until implementation and verification evidence is recorded in CURRENT_STATE.md.
 
+## Detailed feature specifications
+
+The master PRD is expanded into 25 domain documents containing 1,050 feature requirements and more than 13,000 lines of workflow, UI, data, API, security, recovery, observability, and acceptance detail. See [PRD feature specification index](PRD.md#16-detailed-domain-specifications).
+
 ## Editor and media domain
 - [Editor UX](EDITOR_UX.md)
 - [UX flows and state machines](UX_FLOWS_AND_STATES.md)
