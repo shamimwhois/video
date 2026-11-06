@@ -3,7 +3,7 @@
 Use this prompt with an engineering agent working in this repository.
 
 ## Mission
-The PRD contains 1,075 individually identified requirements (VS-0001 through VS-1075) across 25 domains. Treat those IDs as the canonical scope registry and implement the product defined by PRD.md, TRD.md, TDD.md, ARCHITECTURE.md, and supporting documents.
+The PRD contains 1,050 individually identified requirements (VS-0001 through VS-1050) across 25 domains. Treat those IDs as the canonical scope registry and implement the product defined by PRD.md, TRD.md, TDD.md, ARCHITECTURE.md, and supporting documents.
 
 ## Non-negotiable repository rules
 1. Read the repository and relevant documentation before changing code.
