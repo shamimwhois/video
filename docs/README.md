@@ -6,13 +6,18 @@
 The current repository is a Laravel 13 application with authentication and a basic video-post CRUD workflow. The editor, timeline, media-processing workers, AI orchestration, collaboration, and render/export pipeline are specifications only until implementation and tests prove otherwise. See [CURRENT_STATE.md](CURRENT_STATE.md).
 
 ## Start here
-1. [PRD](PRD.md) — product scope and release priorities
+1. [PRD](PRD.md) — master product requirements with 1,075 detailed feature requirements across 25 domains
 2. [TRD](TRD.md) — technical requirements
 3. [TDD](TDD.md) — implementation design
 4. [Architecture](ARCHITECTURE.md) and [Architecture decisions](DECISIONS.md)
 5. [Current repository audit](CURRENT_STATE.md)
 6. [Roadmap](ROADMAP.md) and [Master implementation prompt](IMPLEMENTATION_PROMPT.md)
 7. [Developer guide](DEVELOPER_GUIDE.md)
+
+## Feature scope
+- The master PRD contains 1,075 individually identified requirements (VS-0001–VS-1075).
+- Requirement entries define behavior, user outcome, acceptance criteria, priority, and dependencies.
+- Requirements remain **Specified** until implementation and verification evidence is recorded in CURRENT_STATE.md.
 
 ## Editor and media domain
 - [Editor UX](EDITOR_UX.md)
