@@ -358,7 +358,92 @@ Keep presentation components separate from the project/sequence/track/clip domai
 - [ ] Responsive layouts preserve task usability at supported breakpoints.
 - [ ] No decorative control is presented as functional before its behavior is implemented.
 
-## 16. Relationship to product requirements
+
+## 17. Screen recorder and output format support
+
+The product should provide an in-browser screen/camera recorder and make **MP4, AVI, and WebM** available as user-facing output formats. Recording capture and final container encoding are separate pipeline stages.
+
+### Recorder controls
+
+- Capture source: browser tab, application/window, full screen, camera, microphone, and system audio where the browser and operating system permit.
+- Show a source-selection dialog before capture begins.
+- Show recording indicator, elapsed time, pause/resume, stop, and discard controls.
+- Request screen, camera, and microphone permissions explicitly; explain denied or unavailable sources.
+- Provide audio input selection, level meter, mute, and optional system-audio capture.
+- Warn before stopping or discarding an unsaved recording.
+- On stop, persist the original capture safely before starting optional conversion.
+
+### Supported output formats
+
+| Format | User-facing option | Encoding strategy | Notes |
+|---|---|---|---|
+| MP4 | Yes | Prefer browser-native MP4 only when the browser reports a supported MIME/codec; otherwise transcode with server-side FFmpeg | Recommended compatibility/export choice; H.264 video + AAC audio where licensing and deployment permit |
+| WebM | Yes | Native MediaRecorder when a supported WebM MIME type is available; otherwise FFmpeg transcode | Efficient browser capture path; VP9/Opus or VP8/Opus depending on capability |
+| AVI | Yes | FFmpeg transcode after capture | Legacy/interchange option; expose codec and file-size trade-offs because AVI is not a practical native browser recording target |
+
+Do not hard-code browser support assumptions. At runtime, detect supported recorder MIME types using the browser capability APIs and choose a supported capture format. The user-facing export format remains independent of the temporary capture container.
+
+### Recording and conversion workflow
+
+1. User selects capture sources and recording options.
+2. Application requests permissions and verifies selected devices/sources.
+3. Recorder selects a supported MIME type and starts capture.
+4. Chunks are buffered and uploaded/persisted incrementally; avoid relying on one large in-memory Blob for long recordings.
+5. User stops recording; the original capture is finalized and stored.
+6. User chooses MP4, AVI, or WebM output.
+7. A background FFmpeg job remuxes or transcodes only when required.
+8. UI reports queued, processing, completed, failed, cancelled, and retry states.
+9. On success, provide preview, file size, duration, codec/container metadata, and download/save-to-library action.
+10. Retain the original recording until the user explicitly deletes it or the configured retention policy expires.
+
+### Format and codec behavior
+
+- Validate the actual container and codec; do not trust the filename extension.
+- Distinguish remuxing (container change without re-encoding) from transcoding (codec re-encode).
+- Use FFprobe or equivalent metadata inspection after processing.
+- Preserve aspect ratio, frame rate, orientation, and audio/video synchronization.
+- Make resolution, frame rate, video codec, audio codec, and quality/bitrate controls explicit where supported.
+- Surface estimated output size when it can be calculated reliably.
+- Handle unsupported codecs, corrupt chunks, interrupted uploads, disk exhaustion, and conversion timeouts with actionable errors.
+- Enforce file-size, duration, storage, and job concurrency limits from server configuration and user entitlements.
+
+### Recorder UI states
+
+- Source selection and permission request
+- Ready / device unavailable
+- Recording / paused
+- Finalizing upload
+- Original saved
+- Converting / transcoding
+- Completed with preview and download
+- Failed with retry or alternate-format option
+- Cancelled / discarded
+
+### Security and privacy
+
+- Capture only after a clear user action and browser permission.
+- Show a persistent recording indicator while capture is active.
+- Stop media tracks when recording ends or the recorder is disposed.
+- Do not upload or retain camera, microphone, or screen data before the user starts capture.
+- Protect recording and export endpoints with ownership checks, authorization, signed download URLs, and rate limits.
+- Define retention and deletion behavior for original and converted files.
+
+### Recorder acceptance checklist
+
+- [ ] Recorder detects supported browser capture MIME types at runtime.
+- [ ] Screen, tab, camera, microphone, and system-audio options are shown only when supported.
+- [ ] Pause, resume, stop, and discard work and expose clear states.
+- [ ] Long recordings upload/persist incrementally rather than depending on unbounded browser memory.
+- [ ] MP4, AVI, and WebM are available as output choices.
+- [ ] MP4/AVI conversion uses a background FFmpeg pipeline when native capture cannot produce the requested format.
+- [ ] WebM capture uses a supported native MIME type when available.
+- [ ] Output container and codec are probed and verified before marking a job complete.
+- [ ] Conversion failure preserves the original recording and supports retry.
+- [ ] Download and library actions are authorized and use the actual completed output.
+- [ ] Permission denial, device loss, network interruption, and storage limits have usable recovery paths.
+
+
+## 18. Relationship to product requirements
 
 This design specification complements, but does not replace:
 
