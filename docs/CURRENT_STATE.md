@@ -3,52 +3,54 @@
 **Audit baseline:** `main`, inspected 2026-11-06.  
 **Repository:** `shamimwhois/video`
 
-## Verified facts
+## Verified repository facts
 
 | Area | Observed state |
 |---|---|
-| Backend | Laravel `^13.17` |
-| PHP | `^8.3` in composer.json |
-| Frontend build | Vite 8, Laravel Vite plugin, Tailwind CSS 4 |
-| JavaScript | `resources/js/app.js` is empty |
-| Home page | Lists video posts |
+| Backend | Laravel `^13.17` declared in composer.json |
+| PHP requirement | `^8.3` declared in composer.json |
+| Agent instruction conflict | `AGENTS.md` says PHP 8.5; it conflicts with composer.json and must be reconciled |
+| PHP test framework | Pest `^5.3`, Laravel Pest plugin `^5.0` |
+| Frontend build | Vite `^8`, Laravel Vite plugin `^3.1`, Tailwind CSS `^4` |
+| JavaScript app entry | `resources/js/app.js` is currently empty |
 | Authentication | Login, registration, logout routes/controllers and Blade views exist |
-| Domain | User and Post models |
+| Existing product domain | User and Post models |
 | Database | Users, cache, jobs, posts migrations |
-| Media editor | Not found in inspected source tree |
-| Timeline engine | Not found |
-| FFmpeg integration | Not found in inspected manifests/source tree |
-| AI orchestration | Not found in application source |
-| Export workflow | Not found |
-| Tests | Example and post-management feature tests exist |
+| Factories/seeders | UserFactory, PostFactory, PostSeeder; DatabaseSeeder currently has an empty run method |
+| Public routes | Home page, login/register, logout, public post show |
+| Authenticated routes | Post resource routes except show |
+| Media storage | PostController stores uploaded videos on Laravel's `public` disk |
+| Editor workspace | Not found in inspected source tree |
+| Project/sequence/timeline model | Not found |
+| FFmpeg/FFprobe integration | Not found in composer/package manifests or inspected application source |
+| AI provider/orchestration | Not found in inspected application source |
+| Render/export jobs | Not found |
+| Workspace/billing/collaboration | Not found |
+| Automated tests | Example and post-management feature tests plus example unit test exist |
 
 ## Existing behavior
-
 - `GET /` renders a public video-post listing.
-- Guest users can register and log in.
+- Guests can register and log in.
 - Authenticated users manage posts through resource routes.
-- Posts can reference video files on Laravel's public storage disk.
+- A post references a video path stored on the public filesystem disk.
+- Post authorization is implemented through a policy/Gate.
 
-## Gaps to address
+## Documentation audit findings
+- Root `README.md` was still the default Laravel skeleton guide; replace it with product-specific setup and architecture guidance.
+- `AGENTS.md` has a PHP 8.5 requirement inconsistent with composer.json's PHP `^8.3`.
+- The current Blade layout uses Tailwind CDN and Alpine CDN while Vite/Tailwind dependencies are declared. Establish one deliberate frontend asset strategy before editor implementation.
+- Current public video-post storage is not an acceptable default for private customer editing projects. Preserve existing behavior until a migration and access-control plan is reviewed; new editor assets must be private.
+- DatabaseSeeder's run method is empty; do not assume demo data is seeded.
+- Existing route/model names describe a video-post application, not the target editing project domain.
 
-1. Current homepage and route domain describe a video community, not an editor.
-2. There is no editor-side application or timeline state model.
-3. No project, sequence, track, clip, keyframe, effect, asset, or render-job model exists.
-4. No media probe, thumbnail, proxy, waveform, transcription, or export orchestration was verified.
-5. No AI provider abstraction, safe edit-plan schema, approval workflow, or audit trail exists.
-6. Existing database schema is not designed for editor workloads.
-7. The layout includes Tailwind CDN and Alpine CDN while Vite/Tailwind dependencies are present; consolidate asset ownership during editor-shell work.
-
-## Implementation guardrails
-
+## Important implementation guardrails
 - Preserve working authentication and post routes unless a reviewed migration plan replaces them.
 - Do not reinterpret the posts table as projects or assets.
-- Store media in private object storage by default; never store media bytes in relational rows.
-- Model tracks flexibly but define tested resource budgets; do not promise literal unlimited resources.
-- Never run FFmpeg/transcoding in an HTTP request worker.
+- Do not expose new source media or exports publicly by default.
+- Never run FFmpeg/transcoding in HTTP request workers.
 - Never execute model-generated shell commands, SQL, paths, scripts, or raw FFmpeg filters.
 - Use isolated media workers and typed, validated editing operations.
+- Keep existing public-post behavior separate from private editor assets until product requirements explicitly unify them.
 
-## Evidence rule
-
-Mark a capability **Implemented** only after its code path exists, relevant tests pass, and its user-visible workflow is verified. Record commit/PR references and test results here. Mockups and unrelated passing tests are not evidence.
+## Status evidence rule
+Mark a capability **Implemented** only after code exists, relevant tests pass, and its user-visible workflow is verified. Record commit/PR references, commands, and test results. Documentation, mockups, and unrelated passing tests are not implementation evidence.
