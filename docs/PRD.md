@@ -3,7 +3,7 @@
 **Version:** 2.1 | **Status:** Expanded product specification | **Baseline:** 2026-11-06
 **Scope:** Browser-based professional non-linear video editor with AI-assisted workflows.
 
-> This document defines requirements, not shipped functionality. The register contains 1,075 individually identified requirements across 25 product domains. A feature is implemented only after code, tests, and acceptance evidence exist.
+> This document defines requirements, not shipped functionality. The register contains 1,050 individually identified requirements across 25 product domains. A feature is implemented only after code, tests, and acceptance evidence exist.
 
 ## 1. Vision
 Create a browser-first professional editing studio combining deterministic multitrack editing with optional AI assistance. Users import media, arrange a timeline, edit precisely, apply effects and motion, improve audio, caption content, preview, and render deliverables. AI proposals must be inspectable, previewable, permission-checked, and reversible.
@@ -51,7 +51,7 @@ Invite collaborators → assign roles → share versioned review link → collec
 ## 7. Requirement conventions
 Each feature has a stable ID, domain-specific behavior, user outcome, acceptance condition, priority, and dependency. Acceptance requires reproducible automated tests or documented manual verification. Requirement IDs are canonical references for issues, pull requests, tests, and release notes.
 
-## 8. Detailed feature register — 1,075 requirements
+## 8. Detailed feature register — 1,050 requirements
 
 **Register:** 25 domains × 42 requirements = 1050 unique feature IDs.
 
