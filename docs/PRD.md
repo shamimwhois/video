@@ -1294,3 +1294,37 @@ A requirement is Implemented only when code exists in the correct layer, server-
 
 ---
 **Register verification:** 1050 unique IDs (VS-0001 through VS-1050).
+
+## 16. Detailed domain specifications (10,000+ line companion set)
+
+The feature register in this master PRD is expanded into 25 domain specifications under `docs/features/`. Each domain document contains 42 requirement IDs and detailed user workflow, interface behavior, domain state, service/API behavior, validation/security, failure/recovery, observability, acceptance tests, and dependencies.
+
+Each PRD requirement must be implemented and verified against its domain specification. The domain files are normative extensions of this PRD; if wording conflicts, update both in the same reviewed change.
+
+- [01. workspace project lifecycle](features/workspace-project-lifecycle.md)
+- [02. media ingestion upload](features/media-ingestion-upload.md)
+- [03. asset library management](features/asset-library-management.md)
+- [04. sequence composition setup](features/sequence-composition-setup.md)
+- [05. timeline track management](features/timeline-track-management.md)
+- [06. clip editing trimming](features/clip-editing-trimming.md)
+- [07. transform compositing](features/transform-compositing.md)
+- [08. keyframes motion design](features/keyframes-motion-design.md)
+- [09. transitions scene changes](features/transitions-scene-changes.md)
+- [10. titles text annotations](features/titles-text-annotations.md)
+- [11. visual effects color](features/visual-effects-color.md)
+- [12. audio editing mixing](features/audio-editing-mixing.md)
+- [13. captions transcription](features/captions-transcription.md)
+- [14. cursor tutorial authoring](features/cursor-tutorial-authoring.md)
+- [15. ai edit assistant agents](features/ai-edit-assistant-agents.md)
+- [16. ai media generation enhancement](features/ai-media-generation-enhancement.md)
+- [17. preview playback engine](features/preview-playback-engine.md)
+- [18. rendering export pipeline](features/rendering-export-pipeline.md)
+- [19. collaboration review](features/collaboration-review.md)
+- [20. sharing publishing](features/sharing-publishing.md)
+- [21. templates brand system](features/templates-brand-system.md)
+- [22. integrations extensibility](features/integrations-extensibility.md)
+- [23. identity security privacy](features/identity-security-privacy.md)
+- [24. plans billing usage](features/plans-billing-usage.md)
+- [25. admin observability support](features/admin-observability-support.md)
+
+**Expanded specification size:** 25 domain files × 531 lines = 13,275 lines, covering VS-0001 through VS-1050.
