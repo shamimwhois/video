@@ -1,58 +1,92 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# AI Video Studio
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A browser-based video editing platform planned around a professional multitrack timeline, non-destructive project editing, asynchronous media rendering, and AI-assisted editing workflows.
 
-## About Laravel
+> **Development status:** The current repository is an early Laravel 13 application with authentication and video-post CRUD. The full editor, timeline engine, AI automation, media workers, and export pipeline are not implemented yet. See [Current Repository State](docs/CURRENT_STATE.md).
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Product direction
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- Professional browser editor with media library, preview, inspector, and multitrack timeline.
+- Video, audio, image, text, caption, and overlay clips.
+- Non-destructive edits, versioned projects, undo/redo, and autosave.
+- FFmpeg-based background processing and validated MP4 exports.
+- AI-assisted transcription, silence removal, captions, scene analysis, and edit-plan proposals.
+- Explicit approval and undo for AI-applied changes.
+- Private media storage and workspace-level access control.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Technology baseline
 
-## Learning Laravel
+| Layer | Current / proposed |
+|---|---|
+| Backend | Laravel 13 |
+| PHP | composer.json currently requires PHP `^8.3` |
+| Frontend build | Vite 8, Tailwind CSS 4 |
+| Editor application | React + TypeScript proposed; not installed/implemented |
+| Database | Laravel-configured database; PostgreSQL recommended for target deployment |
+| Queue/cache | Laravel queue/cache; Redis proposed for production workloads |
+| Media engine | FFmpeg/FFprobe workers proposed; not integrated |
+| AI | Provider adapters and constrained edit-plan workflow proposed |
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+The `AGENTS.md` file currently mentions PHP 8.5, which conflicts with composer.json. Treat Composer's declared requirement as the dependency contract until the mismatch is intentionally resolved.
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## Current application behavior
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+- Public home page lists video posts.
+- Guest registration and login.
+- Authenticated users can create, update, and delete their video posts.
+- Post media is currently stored on Laravel's public filesystem disk.
 
-## Agentic Development
+This post-sharing workflow is distinct from the planned private editor project/asset domain. Do not treat the existing posts table as the future project schema.
 
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+## Getting started
+
+Prerequisites: PHP version/extensions compatible with composer.lock, Composer, Node.js/npm, and a configured database.
 
 ```bash
-composer require laravel/boost --dev
-
-php artisan boost:install
+composer install
+cp .env.example .env
+php artisan key:generate
+php artisan migrate
+npm install
+npm run dev
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+Run automated tests:
 
-## Contributing
+```bash
+php artisan test
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Build frontend assets:
 
-## Code of Conduct
+```bash
+npm run build
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+These commands describe the standard Laravel workflow; successful setup has not been verified by this documentation update. Configure database, queue, cache, and filesystem in `.env` before running the application. Use a disposable/local database for migrations.
 
-## Security Vulnerabilities
+## Documentation
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+Start with [docs/README.md](docs/README.md).
+
+Key documents:
+- [PRD](docs/PRD.md)
+- [TRD](docs/TRD.md)
+- [TDD](docs/TDD.md)
+- [Architecture](docs/ARCHITECTURE.md)
+- [Current state audit](docs/CURRENT_STATE.md)
+- [Roadmap](docs/ROADMAP.md)
+- [Master implementation prompt](docs/IMPLEMENTATION_PROMPT.md)
+
+## Engineering principles
+
+- Preserve existing behavior; avoid destructive schema changes.
+- Keep media processing outside HTTP request handlers.
+- Keep original media immutable and store edits as versioned project data.
+- AI output is untrusted until validated against a strict operation schema.
+- Require user approval before applying AI timeline edits.
+- Never claim features, tests, or deployment steps are complete without evidence.
 
 ## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+See the repository license file when one is added. No product license is declared by this README update.
